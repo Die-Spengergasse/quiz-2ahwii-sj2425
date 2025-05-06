@@ -1,35 +1,56 @@
-// Klasse Frage erstellen
-import { fragen } from "./fragen.js"; // Importiere die Fragen aus der JSON-Datei
-globalThis.fragen = fragen; // Globales Array für die Fragen
-class Frage {
-    constructor(frage, optionen, antwort) {
-        this.frage = frage;
-        this.optionen = optionen;
-        this.antwort = antwort;
-    }
+const frageText = document.getElementById("frage-text");
+const optionenContainer = document.getElementById("optionen-container");
+const weiterBtn = document.getElementById("weiter-btn");
+const counter = document.getElementById("counter");
 
-    // Methode zum Anzeigen der Frage und der Optionen
-    anzeigen() {
-        console.log(`Frage: ${this.frage}`);
-        console.log("Optionen:");
-        this.optionen.forEach((option, index) => {
-            console.log(`${index + 1}. ${option}`);
-        });
-    }
+let aktuelleFrageIndex = 0;
+let antwortRichtig = false;
+let score = 0;
 
-    // Methode zum Prüfen der Antwort
-    pruefen(antwort) {
-        return this.antwort === antwort;
-    }
+function ladeFrage() {
+  const frage = fragen[aktuelleFrageIndex];
+  frageText.textContent = frage.frage;
+  optionenContainer.innerHTML = "";
+  weiterBtn.disabled = true;
+  antwortRichtig = false;
+
+  frage.optionen.forEach((option) => {
+    const button = document.createElement("button");
+    button.textContent = option;
+    button.classList.add("option");
+
+    button.addEventListener("click", () => überprüfeAntwort(button, frage.antwort));
+    optionenContainer.appendChild(button);
+  });
 }
 
-const fragenObjekte = fragen.map((e) =>
-    new Frage(e.frage, e.optionen, e.antwort)
-);
+function überprüfeAntwort(button, richtigeAntwort) {
+  const alleOptionen = document.querySelectorAll(".option");
 
-// Beispiel: Jede Frage anzeigen
-fragenObjekte.forEach((frage, index) => {
-    console.log(`Frage ${index + 1}:`);
-    frage.anzeigen();
-    console.log("---");
+  if (button.textContent === richtigeAntwort) {
+    button.classList.add("correct");
+    antwortRichtig = true;
+    weiterBtn.disabled = false;
+    alleOptionen.forEach((btn) => (btn.disabled = true));
+    score++;
+  } else {
+    button.classList.add("incorrect");
+    button.disabled = true;
+    score--;
+  }
+}
+
+weiterBtn.addEventListener("click", () => {
+  if (!antwortRichtig) return;
+  aktuelleFrageIndex++;
+  if (aktuelleFrageIndex < fragen.length) {
+    ladeFrage();
+    counter.textContent = `Frage ${aktuelleFrageIndex + 1} von ${fragen.length}`;
+  } else {
+    frageText.textContent = "Du hast alle Fragen beantwortet! und dein Score ist: " + score;
+    optionenContainer.innerHTML = "";
+    weiterBtn.style.display = "none";
+  }
 });
+
+ladeFrage();
