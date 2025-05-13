@@ -1,0 +1,4 @@
+// variablennamen: fragenrichtig, fragenfalsch
+
+const correct =  document.getElementById("correctquestions");
+const wrong =  document.getElementById("wrongquestions");
