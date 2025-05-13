@@ -2,7 +2,7 @@ body, html {
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: #29b1bb;
+    background-color: #10757c;
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
@@ -10,9 +10,9 @@ body, html {
 }
 
 .container {
-    max-width: 800px;
-    padding: 20px;
-    background-color: white;
+    max-width: 8000px;
+    padding: 150px;
+    background-color: #66bec4;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -20,30 +20,30 @@ body, html {
 
 #start-button {
     font-size: 5rem;
-    background-color: green;
+    background-color: rgb(0, 117, 128);
     color: white;
     padding: 0.5em;
     border-radius: 0.5em;
     cursor: pointer;
 }
 #start-button:hover {
-    background-color: #45a049;
+    background-color:  rgb(41, 150, 159);
 }
 #start-button:active {
-    background-color: #3e8e41;
+    background-color:  rgb(41, 150, 159);
 }
 
 #weiter-btn {
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #4caf50;
+    background-color: rgb(41, 150, 159);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 #weiter-btn:hover {
-    background-color: #45a049;
+    background-color: rgb(23, 82, 87);
 }
 
 #restart-btn {
