@@ -2,5 +2,4 @@
 
 Quiz Projekt alle gemeinsam
 
-Versuch mit push auf main
-next try: soll nicht gehen
+Versuch mit push auf main next try: soll nicht gehen
