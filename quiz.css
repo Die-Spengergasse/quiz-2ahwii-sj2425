@@ -72,3 +72,12 @@ li {
     border-radius: 3px;
 }
 
+.option-container {
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.option-container input[type="radio"] {
+    margin-right: 10px;
+}
