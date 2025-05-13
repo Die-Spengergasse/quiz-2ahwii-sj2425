@@ -9,13 +9,13 @@ class Frage {
     }
 
     // Methode zum Anzeigen der Frage und der Optionen
-    anzeigen() {
-        console.log(`Frage: ${this.frage}`);
+    /*anzeigen() {
+        console.log(Frage: ${this.frage});
         console.log("Optionen:");
         this.optionen.forEach((option, index) => {
-            console.log(`${index + 1}. ${option}`);
+            console.log(${index + 1}. ${option});
         });
-    }
+    }*/
 
     // Methode zum Prüfen der Antwort
     pruefen(antwort) {
@@ -28,8 +28,46 @@ const fragenObjekte = fragen.map((e) =>
 );
 
 // Beispiel: Jede Frage anzeigen
-fragenObjekte.forEach((frage, index) => {
-    console.log(`Frage ${index + 1}:`);
+/*fragenObjekte.forEach((frage, index) => {
+    console.log(Frage ${index + 1}:);
     frage.anzeigen();
     console.log("---");
+});*/
+
+document.addEventListener("DOMContentLoaded", () => {
+    const startButton = document.getElementById("start-button");
+    const questionContainer = document.getElementById("question-container");
+    const questionText = document.getElementById("question");
+    const optionsList = document.getElementById("options");
+    const weiterBtn = document.getElementById("weiter-btn");    //neu
+    let currentQuestionIndex = 0;       //neu
+    const questionNumber = document.getElementById("question-number"); //neu
+
+    function renderQuestion(frageObj) {
+        questionText.textContent = frageObj.frage;
+        optionsList.innerHTML = "";
+
+        frageObj.optionen.forEach(option => {
+            const li = document.createElement("li");
+            li.textContent = option;
+            optionsList.appendChild(li);
+        });
+    }
+
+    startButton.addEventListener("click", () => {
+        startButton.classList.add("hidden");
+        questionContainer.classList.remove("hidden");
+        weiterBtn.classList.remove("hidden");       //neu
+
+        renderQuestion(fragenObjekte[currentQuestionIndex]);        //anders
+    });
+
+    //neu:
+    weiterBtn.addEventListener("click", () => {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < fragenObjekte.length) {
+            questionNumber.textContent = `${currentQuestionIndex + 1}/${fragenObjekte.length}`;
+        }
+        renderQuestion(fragenObjekte[currentQuestionIndex]);
+    });
 });
