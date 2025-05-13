@@ -8,15 +8,6 @@ class Frage {
         this.antwort = antwort;
     }
 
-    // Methode zum Anzeigen der Frage und der Optionen
-    /*anzeigen() {
-        console.log(Frage: ${this.frage});
-        console.log("Optionen:");
-        this.optionen.forEach((option, index) => {
-            console.log(${index + 1}. ${option});
-        });
-    }*/
-
     // Methode zum Prüfen der Antwort
     pruefen(antwort) {
         return this.antwort === antwort;
@@ -27,21 +18,14 @@ const fragenObjekte = fragen.map((e) =>
     new Frage(e.frage, e.optionen, e.antwort)
 );
 
-// Beispiel: Jede Frage anzeigen
-/*fragenObjekte.forEach((frage, index) => {
-    console.log(Frage ${index + 1}:);
-    frage.anzeigen();
-    console.log("---");
-});*/
-
 document.addEventListener("DOMContentLoaded", () => {
     const startButton = document.getElementById("start-button");
     const questionContainer = document.getElementById("question-container");
     const questionText = document.getElementById("question");
     const optionsList = document.getElementById("options");
-    const weiterBtn = document.getElementById("weiter-btn");    //neu
-    let currentQuestionIndex = 0;       //neu
-    const questionNumber = document.getElementById("question-number"); //neu
+    const weiterBtn = document.getElementById("weiter-btn");    
+    let currentQuestionIndex = 0;       
+    const questionNumber = document.getElementById("question-number"); 
 
     function renderQuestion(frageObj) {
         questionText.textContent = frageObj.frage;
@@ -57,12 +41,11 @@ document.addEventListener("DOMContentLoaded", () => {
     startButton.addEventListener("click", () => {
         startButton.classList.add("hidden");
         questionContainer.classList.remove("hidden");
-        weiterBtn.classList.remove("hidden");       //neu
+        weiterBtn.classList.remove("hidden");      
 
-        renderQuestion(fragenObjekte[currentQuestionIndex]);        //anders
+        renderQuestion(fragenObjekte[currentQuestionIndex]);        
     });
 
-    //neu:
     weiterBtn.addEventListener("click", () => {
         currentQuestionIndex++;
         if (currentQuestionIndex < fragenObjekte.length) {
