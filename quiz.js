@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const questionText = document.getElementById("question");
     const optionsList = document.getElementById("options");
     const weiterBtn = document.getElementById("weiter-btn");
+    const restartBtn = document.getElementById("restart-btn");
     const questionNumber = document.getElementById("question-number");
 
     let currentQuestionIndex = 0;
@@ -61,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
         startButton.classList.add("hidden");
         questionContainer.classList.remove("hidden");
         weiterBtn.classList.remove("hidden");
-
+        restartBtn.classList.remove("hidden");
         renderQuestion(fragenObjekte[currentQuestionIndex]);
     });
 
@@ -85,7 +86,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         currentQuestionIndex++;
+        if (currentQuestionIndex < fragenObjekte.length) { // es gibt noch (zumindest) diese Frage
+            renderQuestion(fragenObjekte[currentQuestionIndex]);
+        }
+    });
 
+    restartBtn.addEventListener("click", () => {
+        currentQuestionIndex = 0;
+        questionNumber.textContent = `1/${fragenObjekte.length}`;
         renderQuestion(fragenObjekte[currentQuestionIndex]);
     });
 });
