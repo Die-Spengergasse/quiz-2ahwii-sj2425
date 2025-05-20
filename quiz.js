@@ -27,6 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const weiterBtn = document.getElementById("weiter-btn");
     const restartBtn = document.getElementById("restart-btn");
     const questionNumber = document.getElementById("question-number");
+    
+    const correctCountElement = document.getElementById("correct-count");
+    const wrongCountElement = document.getElementById("wrong-count");
     const timerDisplay = document.getElementById("timer");
 
     let currentQuestionIndex = 0;
@@ -87,6 +90,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         questionNumber.textContent = `${currentQuestionIndex + 1}/${fragenObjekte.length}`;
+        correctCountElement.textContent = `Correct: ${fragerichtig}`;
+        wrongCountElement.textContent = `Wrong: ${fragefalsch}`;
     }
 
     // Quiz starten
@@ -95,6 +100,8 @@ document.addEventListener("DOMContentLoaded", () => {
         questionContainer.classList.remove("hidden");
         weiterBtn.classList.remove("hidden");
         restartBtn.classList.remove("hidden");
+        correctCountElement.textContent = `Correct: ${fragerichtig}`;
+        wrongCountElement.textContent = `Wrong: ${fragefalsch}`;
         renderQuestion(fragenObjekte[currentQuestionIndex]);
         resetTimer(); // Timer starten
     });
@@ -124,16 +131,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (currentQuestionIndex < fragenObjekte.length) { // Es gibt noch Fragen
             renderQuestion(fragenObjekte[currentQuestionIndex]);
-        } else {
+
+        }else {
+     
+            questionContainer.innerHTML =
+                `<h2>Quiz Finished!</h2><p>Sie haben ${fragerichtig} Fragen richtig und ${fragefalsch} fragen falsch.</p>`;
+            weiterBtn.classList.add("hidden");  
             stopTimer(); // Quiz Ende - Timer stoppen
+      
         }
     });
 
     // Quiz neu starten
     restartBtn.addEventListener("click", () => {
         currentQuestionIndex = 0;
+
+        fragerichtig = 0; 
+        fragefalsch = 0;
+        correctCountElement.textContent = `richtig: ${fragerichtig}`;
+        wrongCountElement.textContent = `falsch: ${fragefalsch}`;
+
         fragerichtig = 0;
         fragefalsch = 0;
+
         questionNumber.textContent = `1/${fragenObjekte.length}`;
         renderQuestion(fragenObjekte[currentQuestionIndex]);
         resetTimer(); // Timer zurücksetzen und starten
