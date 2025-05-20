@@ -27,11 +27,42 @@ document.addEventListener("DOMContentLoaded", () => {
     const weiterBtn = document.getElementById("weiter-btn");
     const restartBtn = document.getElementById("restart-btn");
     const questionNumber = document.getElementById("question-number");
+    const timerDisplay = document.getElementById("timer");
 
     let currentQuestionIndex = 0;
     let fragerichtig = 0;
     let fragefalsch = 0;
 
+    // Timer-Variablen (korrekter Name)
+    let timerInterval = null;
+    let startTime = 0;
+
+    // Timer starten
+    function startTimer() {
+        startTime = Date.now();
+        timerInterval = setInterval(() => {
+            const elapsed = Date.now() - startTime;
+            const minutes = Math.floor(elapsed / 60000);
+            const seconds = Math.floor((elapsed % 60000) / 1000);
+            timerDisplay.textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }, 1000);
+    }
+
+    // Timer stoppen
+    function stopTimer() {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        timerDisplay.textContent = "00:00";
+    }
+
+    // Timer zurücksetzen und starten
+    function resetTimer() {
+        stopTimer();
+        startTimer();
+    }
+
+    // Frage rendern
     function renderQuestion(frageObj) {
         questionText.textContent = frageObj.frage;
         optionsList.innerHTML = "";
@@ -58,19 +89,23 @@ document.addEventListener("DOMContentLoaded", () => {
         questionNumber.textContent = `${currentQuestionIndex + 1}/${fragenObjekte.length}`;
     }
 
+    // Quiz starten
     startButton.addEventListener("click", () => {
         startButton.classList.add("hidden");
         questionContainer.classList.remove("hidden");
         weiterBtn.classList.remove("hidden");
         restartBtn.classList.remove("hidden");
         renderQuestion(fragenObjekte[currentQuestionIndex]);
+        resetTimer(); // Timer starten
     });
 
+    // Nächste Frage
     weiterBtn.addEventListener("click", () => {
         const selected = document.querySelector('input[name="frageOption"]:checked');
 
         if (!selected) {
             weiterBtn.disabled = true;
+            return; // Kein Ergebnis ausgewählt, Button deaktiviert und nichts weiter tun
         }
 
         weiterBtn.disabled = false;
@@ -84,16 +119,23 @@ document.addEventListener("DOMContentLoaded", () => {
         else {
             fragefalsch++;
         }
-        
+
         currentQuestionIndex++;
-        if (currentQuestionIndex < fragenObjekte.length) { // es gibt noch (zumindest) diese Frage
+
+        if (currentQuestionIndex < fragenObjekte.length) { // Es gibt noch Fragen
             renderQuestion(fragenObjekte[currentQuestionIndex]);
+        } else {
+            stopTimer(); // Quiz Ende - Timer stoppen
         }
     });
 
+    // Quiz neu starten
     restartBtn.addEventListener("click", () => {
         currentQuestionIndex = 0;
+        fragerichtig = 0;
+        fragefalsch = 0;
         questionNumber.textContent = `1/${fragenObjekte.length}`;
         renderQuestion(fragenObjekte[currentQuestionIndex]);
+        resetTimer(); // Timer zurücksetzen und starten
     });
 });
