@@ -2,12 +2,10 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"    
-    
-/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quiz Seite</title>
     <link rel="stylesheet" href="quiz.css" />
-    <script src="quiz.js" type="module"></script>
+    <script src="quiz.js" type="module" defer></script>
 </head>
 <body>
     <div class="container">
@@ -24,17 +22,17 @@
                 <option value="21">Sport</option>
             </select>
         </div>
-    
+
         <!-- Eingabe für die Anzahl der Fragen -->
         <div class="question-count-container">
             <label for="question-count">Anzahl der Fragen:</label>
-            <input type="number" id="question-count" min="1" max="20" value="5">
+            <input type="number" id="question-count" min="2" max="14" value="5" />
         </div>
-    
+
         <div id="question-container" class="hidden">
             <div id="header">
                 <div>
-                    <span id="question-number">1/14</span>    
+                    <span id="question-number">1/14</span>
                 </div>
                 <div>
                     <span id="timer">00:00</span>
@@ -45,7 +43,7 @@
         </div>
 
         <div id="weiter-container">
-            <button id="weiter-btn" class="hidden">Nächste Frage</button>
+            <button id="weiter-btn" class="hidden" disabled>Nächste Frage</button>
             <button id="restart-btn" class="hidden">Quiz neu starten</button>
         </div>
     </div>
