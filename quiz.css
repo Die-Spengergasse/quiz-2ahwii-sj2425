@@ -92,6 +92,7 @@ li {
     color: white;
     justify-content: space-around;
     border-radius: 10px;
+    flex-direction: column;
 }
 
 .option-container {
