@@ -100,8 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
         questionContainer.classList.remove("hidden");
         weiterBtn.classList.remove("hidden");
         restartBtn.classList.remove("hidden");
-        correctCountElement.textContent = `Correct: ${fragerichtig}`;
-        wrongCountElement.textContent = `Wrong: ${fragefalsch}`;
         renderQuestion(fragenObjekte[currentQuestionIndex]);
         resetTimer(); // Timer starten
     });
