@@ -3,35 +3,28 @@ html {
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: #10757c;
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
+    background: linear-gradient(to bottom, #3131e0, #4fbaf8);
+    font-family: Arial, sans-serif
 }
 
 .container {
-    width: 1300px;
-    height: 400px;
-    padding: 150px;
-    background-color: #66bec4;
-    border-radius: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-/* .container2 {
     max-width: 8000px;
     padding: 150px;
-    background-color: #a9f9ff;
+    background-color: #66bec4;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-} */
+    color: #d8d8ff;
+    opacity: 0.5px;
+}
 
 #start-button {
     font-size: 5rem;
-    background-color: rgb(0, 117, 128);
+    background-color: rgb(22, 22, 22);
     color: white;
     padding: 0.5em;
     border-radius: 0.5em;
@@ -77,6 +70,7 @@ html {
 ul {
     list-style: none;
     padding: 0;
+
 }
 
 li {
@@ -84,6 +78,7 @@ li {
     background-color: #f0f0f0;
     margin: 5px 0;
     border-radius: 5px;
+
 }
 
 .hidden {
@@ -93,10 +88,9 @@ li {
 #header {
     display: flex;
     font-size: 2rem;
-    /* margin-bottom: 20px; */
-    margin-top: 20px;
-    background-color: #10757c;
-    color: rgb(0, 0, 0);
+    margin-bottom: 20px;
+    background-color: rgb(0, 0, 0);
+    color: white;
     justify-content: space-around;
     border-radius: 10px;
 }
@@ -109,6 +103,33 @@ li {
 
 .option-container input[type="radio"] {
     margin-right: 10px;
+    accent-color: #676767;
+    /* Ändert Farbe in modernen Browsern */
+    width: 20px;
+    height: 20px;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /*background-color: #4d3de1;*/
+    color: white;
+    text-align: center;
+    padding: 30px 0;
+    font-size: 35px;
+    z-index: 1000;
+    /*box-shadow: 0 2px 5px rgba(0,0,0,0.3);*/
+
+}
+
+.options {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #e50b0b;
+
+    border-radius: 5px;
 }
 
 .option-0 {
