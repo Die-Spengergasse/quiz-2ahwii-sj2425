@@ -112,8 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const selected = document.querySelector('input[name="frageOption"]:checked');
 
         if (!selected) {
-            weiterBtn.disabled = true;
-            //return; // Kein Ergebnis ausgewählt, Button deaktiviert und nichts weiter tun
+            weiterBtn.disabled = true; // Kein Ergebnis ausgewählt, Button deaktiviert und nichts weiter tun
         }
 
         weiterBtn.disabled = false;
@@ -132,7 +131,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (currentQuestionIndex < fragenObjekte.length) { // Es gibt noch Fragen
             renderQuestion(fragenObjekte[currentQuestionIndex]);
-
         }
 
         else {
@@ -141,23 +139,11 @@ document.addEventListener("DOMContentLoaded", () => {
             endcontainer.classList.remove("hidden");
 
             endcontainer.innerHTML = 
-            `
-                <h2>Quiz Finished!</h2>
-                <p>Sie haben ${fragerichtig} Fragen richtig und ${fragefalsch} Fragen falsch.</p>
+                `<h2>Quiz Finished!</h2>
+                <p>${fragerichtig}/${fragenObjekte.length} Fragen richtig und ${fragefalsch}/${fragenObjekte.length} Fragen falsch.</p>
                 <p>Gesamtzeit: ${timerDisplay.textContent}</p>`;
-                stopTimer();
-
+            stopTimer();
         };
-
-
-        /*else {
-     
-            questionContainer.innerHTML =
-                `<h2>Quiz Finished!</h2><p>Sie haben ${fragerichtig} Fragen richtig und ${fragefalsch} fragen falsch.</p>`;
-            weiterBtn.classList.add("hidden");  
-            stopTimer(); // Quiz Ende - Timer stoppen
-      
-        }*/;
     }); // <-- This closes the weiterBtn.addEventListener function
 
     // Quiz neu starten
