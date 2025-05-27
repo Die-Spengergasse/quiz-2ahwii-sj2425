@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const weiterBtn = document.getElementById("weiter-btn");
     const restartBtn = document.getElementById("restart-btn");
     const questionNumber = document.getElementById("question-number");
-    
+    const endcontainer = document.getElementById("endcontainer");
     const correctCountElement = document.getElementById("correct-count");
     const wrongCountElement = document.getElementById("wrong-count");
     const timerDisplay = document.getElementById("timer");
@@ -104,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
         wrongCountElement.textContent = `Wrong: ${fragefalsch}`;
         renderQuestion(fragenObjekte[currentQuestionIndex]);
         resetTimer(); // Timer starten
+        endcontainer.classList.add("hidden");
     });
 
     // Nächste Frage
@@ -112,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!selected) {
             weiterBtn.disabled = true;
-            return; // Kein Ergebnis ausgewählt, Button deaktiviert und nichts weiter tun
+            //return; // Kein Ergebnis ausgewählt, Button deaktiviert und nichts weiter tun
         }
 
         weiterBtn.disabled = false;
@@ -132,19 +133,39 @@ document.addEventListener("DOMContentLoaded", () => {
         if (currentQuestionIndex < fragenObjekte.length) { // Es gibt noch Fragen
             renderQuestion(fragenObjekte[currentQuestionIndex]);
 
-        }else {
+        }
+
+        else {
+            questionContainer.classList.add("hidden");
+            weiterBtn.classList.add("hidden");
+            endcontainer.classList.remove("hidden");
+
+            endcontainer.innerHTML = 
+            `
+                <h2>Quiz Finished!</h2>
+                <p>Sie haben ${fragerichtig} Fragen richtig und ${fragefalsch} Fragen falsch.</p>
+                <p>Gesamtzeit: ${timerDisplay.textContent}</p>`;
+                stopTimer();
+
+        };
+
+
+        /*else {
      
             questionContainer.innerHTML =
                 `<h2>Quiz Finished!</h2><p>Sie haben ${fragerichtig} Fragen richtig und ${fragefalsch} fragen falsch.</p>`;
             weiterBtn.classList.add("hidden");  
             stopTimer(); // Quiz Ende - Timer stoppen
       
-        }
-    });
+        }*/;
+    }); // <-- This closes the weiterBtn.addEventListener function
 
     // Quiz neu starten
     restartBtn.addEventListener("click", () => {
+        questionContainer.classList.remove("hidden");
+        weiterBtn.classList.remove("hidden");
         currentQuestionIndex = 0;
+        endcontainer.classList.add("hidden");
 
         fragerichtig = 0; 
         fragefalsch = 0;
