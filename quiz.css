@@ -14,12 +14,11 @@ body, html {
 .container {
     width: 1000px;
     padding: 75px;
-    /*background: linear-gradient(to bottom,#3e3c96, #5b4699);*/
+    background: black;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    color: #d8d8ff;
-    opacity: 0.5px;
+    opacity: 0.3;
 }
 
 
@@ -104,6 +103,7 @@ li {
     accent-color: #676767; /* Ändert Farbe in modernen Browsern */
     width: 20px;
     height: 20px;
+
 }
 
 header {
