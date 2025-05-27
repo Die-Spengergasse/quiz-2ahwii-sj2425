@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -10,13 +11,23 @@ body, html {
 }
 
 .container {
-    max-width: 8000px;
+    width: 1300px;
+    height: 400px;
     padding: 150px;
     background-color: #66bec4;
-    border-radius: 8px;
+    border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
+
+/* .container2 {
+    max-width: 8000px;
+    padding: 150px;
+    background-color: #a9f9ff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+} */
 
 #start-button {
     font-size: 5rem;
@@ -26,11 +37,13 @@ body, html {
     border-radius: 0.5em;
     cursor: pointer;
 }
+
 #start-button:hover {
-    background-color:  rgb(41, 150, 159);
+    background-color: rgb(41, 150, 159);
 }
+
 #start-button:active {
-    background-color:  rgb(41, 150, 159);
+    background-color: rgb(41, 150, 159);
 }
 
 #weiter-btn {
@@ -42,6 +55,7 @@ body, html {
     border-radius: 5px;
     cursor: pointer;
 }
+
 #weiter-btn:hover {
     background-color: rgb(23, 82, 87);
 }
@@ -55,6 +69,7 @@ body, html {
     border-radius: 5px;
     cursor: pointer;
 }
+
 #restart-btn:hover {
     background-color: #45a049;
 }
@@ -78,11 +93,12 @@ li {
 #header {
     display: flex;
     font-size: 2rem;
-    margin-bottom: 20px;
-    background-color: rgb(0, 0, 0);
-    color: white;
+    /* margin-bottom: 20px; */
+    margin-top: 20px;
+    background-color: #10757c;
+    color: rgb(0, 0, 0);
     justify-content: space-around;
-    border-radius: 3px;
+    border-radius: 10px;
 }
 
 .option-container {
@@ -93,4 +109,8 @@ li {
 
 .option-container input[type="radio"] {
     margin-right: 10px;
+}
+
+.option-0 {
+    color: rgb(255, 38, 0);
 }
