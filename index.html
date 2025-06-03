@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Quiz Seite</title>
-    <link rel="stylesheet" href="quiz.css" />
-    <script src="quiz.js" type="module"></script>
-</head>
-<body>
-    <div class="container">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Quiz Seite</title>
+        <link rel="stylesheet" href="quiz.css">
+        <script src="quiz.js" type="module"></script>
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+    </head>
+    <body>
+        <div class="container">
+            <div id="endcontainer"></div>
 
-        <div id="endcontainer">
-        </div>
+            <h1>
+                <button type="button" id="start-button">Quiz starten</button>
+            </h1>
 
-        <h1>
-            <button type="button" id="start-button">Quiz starten</button>
-        </h1>
-
-        <div id="question-container" class="hidden">
-            <div id="header">
-                <div>
-                    <span id="question-number">1/14</span>  
-                    <span id="correct-count">0</span>
-                    <span id="wrong-count">0</span>
+            <div id="question-container" class="hidden">
+                <div id="header">
+                    <div>
+                        <span id="question-number">1/14</span>
+                        <span id="correct-count">0</span>
+                        <span id="wrong-count">0</span>
+                    </div>
+                    <div>
+                        <span id="timer">00:00</span>
+                    </div>
                 </div>
-                <div>
-                    <span id="timer">00:00</span>
-                </div>
+                <h2 id="question">_</h2>
+                <div id="options"></div>
             </div>
-            <h2 id="question"></h2>
-            <div id="options"></div> 
-        </div>
 
-        <div id="weiter-container">
-            <button id="weiter-btn" class="hidden">Nächste Frage</button>
-            <button id="restart-btn" class="hidden">Quiz neu starten</button>
+            <div id="weiter-container">
+                <button id="weiter-btn" class="hidden">Nächste Frage</button>
+                <button id="restart-btn" class="hidden">
+                    Quiz neu starten
+                </button>
+            </div>
         </div>
-        
-    </div>
-</body>
+    </body>
 </html>
