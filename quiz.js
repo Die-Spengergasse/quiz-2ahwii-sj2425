@@ -92,6 +92,12 @@ class App {
             `Correct: ${this.state.fragerichtig}`;
         this.domElements.wrongCountElement.textContent =
             `Wrong: ${this.state.fragefalsch}`;
+
+        if (this.state.currentQuestionIndex === this.fragenObjekte.length - 1) {
+            this.domElements.weiterBtn.textContent = "Quiz beenden";
+        } else {
+            this.domElements.weiterBtn.textContent = "Nächste Frage";
+        }
     }
 
     // Quiz starten
@@ -196,3 +202,4 @@ globalThis.addEventListener("DOMContentLoaded", () => {
     globalThis.app = app; // Globales App-Objekt
     app.init();
 });
+
