@@ -2,73 +2,69 @@
 import { fragen } from "./fragen.js"; // Importiere die Fragen aus der JSON-Datei
 globalThis.fragen = fragen; // Globales Array für die Fragen
 
-class Frage {
-    constructor(frage, optionen, antwort) {
-        this.frage = frage;
-        this.optionen = optionen;
-        this.antwort = antwort;
+import { Frage } from "./frage.js"; // Importiere die Klasse Frage
+
+class App {
+    constructor() {
+        this.domElements = {
+            startButton: document.getElementById("start-button"),
+            questionContainer: document.getElementById("question-container"),
+            questionText: document.getElementById("question"),
+            optionsList: document.getElementById("options"),
+            weiterBtn: document.getElementById("weiter-btn"),
+            restartBtn: document.getElementById("restart-btn"),
+            questionNumber: document.getElementById("question-number"),
+            endcontainer: document.getElementById("endcontainer"),
+            correctCountElement: document.getElementById("correct-count"),
+            wrongCountElement: document.getElementById("wrong-count"),
+            timerDisplay: document.getElementById("timer"),
+        };
+        this.state = {
+            currentQuestionIndex: 0,
+            fragerichtig: 0,
+            fragefalsch: 0,
+        };
+        this.fragenObjekte = fragen.map((e) =>
+            new Frage(e.frage, e.optionen, e.antwort)
+        );
     }
-
-    // Methode zum Prüfen der Antwort
-    pruefen(antwort) {
-        return this.antwort === antwort;
+    show_endpage() {
+        this.domElements.questionContainer.classList.add("hidden");
+        this.domElements.weiterBtn.classList.add("hidden");
+        this.domElements.restartBtn.classList.remove("hidden");
+        this.domElements.endcontainer.classList.remove("hidden");
     }
-}
-
-const fragenObjekte = fragen.map((e) =>
-    new Frage(e.frage, e.optionen, e.antwort)
-);
-
-document.addEventListener("DOMContentLoaded", () => {
-    const startButton = document.getElementById("start-button");
-    const questionContainer = document.getElementById("question-container");
-    const questionText = document.getElementById("question");
-    const optionsList = document.getElementById("options");
-    const weiterBtn = document.getElementById("weiter-btn");
-    const restartBtn = document.getElementById("restart-btn");
-    const questionNumber = document.getElementById("question-number");
-    const endcontainer = document.getElementById("endcontainer");
-    const correctCountElement = document.getElementById("correct-count");
-    const wrongCountElement = document.getElementById("wrong-count");
-    const timerDisplay = document.getElementById("timer");
-
-    let currentQuestionIndex = 0;
-    let fragerichtig = 0;
-    let fragefalsch = 0;
-
-    // Timer-Variablen (korrekter Name)
-    let timerInterval = null;
-    let startTime = 0;
-
     // Timer starten
-    function startTimer() {
-        startTime = Date.now();
-        timerInterval = setInterval(() => {
-            const elapsed = Date.now() - startTime;
+    startTimer() {
+        this.state.startTime = Date.now();
+        this.state.timerInterval = setInterval(() => {
+            const elapsed = Date.now() - this.state.startTime;
             const minutes = Math.floor(elapsed / 60000);
             const seconds = Math.floor((elapsed % 60000) / 1000);
-            timerDisplay.textContent = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            this.domElements.timerDisplay.textContent = `${
+                minutes.toString().padStart(2, "0")
+            }:${seconds.toString().padStart(2, "0")}`;
         }, 1000);
     }
 
     // Timer stoppen
-    function stopTimer() {
-        clearInterval(timerInterval);
-        timerInterval = null;
-        timerDisplay.textContent = "00:00";
+    stopTimer() {
+        clearInterval(this.state.timerInterval);
+        this.state.timerInterval = null;
+        this.domElements.timerDisplay.textContent = "00:00";
     }
 
     // Timer zurücksetzen und starten
-    function resetTimer() {
-        stopTimer();
-        startTimer();
+    resetTimer() {
+        this.stopTimer();
+        this.startTimer();
     }
 
     // Frage rendern
-    function renderQuestion(frageObj) {
-        questionText.textContent = frageObj.frage;
-        optionsList.innerHTML = "";
+    renderQuestion() {
+        const frageObj = this.fragenObjekte[this.state.currentQuestionIndex];
+        this.domElements.questionText.textContent = frageObj.frage;
+        this.domElements.optionsList.innerHTML = "";
 
         frageObj.optionen.forEach((option, index) => {
             const container = document.createElement("div"); // Wrapper für Radio + Label
@@ -86,83 +82,117 @@ document.addEventListener("DOMContentLoaded", () => {
 
             container.appendChild(radio);
             container.appendChild(label);
-            optionsList.appendChild(container);
+            this.domElements.optionsList.appendChild(container);
         });
 
-        questionNumber.textContent = `${currentQuestionIndex + 1}/${fragenObjekte.length}`;
-        correctCountElement.textContent = `Correct: ${fragerichtig}`;
-        wrongCountElement.textContent = `Wrong: ${fragefalsch}`;
+        this.domElements.questionNumber.textContent = `${
+            this.state.currentQuestionIndex + 1
+        }/${this.fragenObjekte.length}`;
+        this.domElements.correctCountElement.textContent =
+            `Correct: ${this.state.fragerichtig}`;
+        this.domElements.wrongCountElement.textContent =
+            `Wrong: ${this.state.fragefalsch}`;
     }
 
     // Quiz starten
-    startButton.addEventListener("click", () => {
-        startButton.classList.add("hidden");
-        questionContainer.classList.remove("hidden");
-        weiterBtn.classList.remove("hidden");
-        restartBtn.classList.remove("hidden");
-        correctCountElement.textContent = `Correct: ${fragerichtig}`;
-        wrongCountElement.textContent = `Wrong: ${fragefalsch}`;
-        renderQuestion(fragenObjekte[currentQuestionIndex]);
-        resetTimer(); // Timer starten
-        endcontainer.classList.add("hidden");
-    });
+    init() {
+        this.domElements.startButton.addEventListener(
+            "click",
+            this.start.bind(this),
+        );
+        this.domElements.weiterBtn.addEventListener(
+            "click",
+            this.weiter.bind(this),
+        );
+        this.domElements.restartBtn.addEventListener(
+            "click",
+            this.restart.bind(this),
+        );
+    }
 
-    // Nächste Frage
-    weiterBtn.addEventListener("click", () => {
-        const selected = document.querySelector('input[name="frageOption"]:checked');
+    start() {
+        this.domElements.startButton.classList.add("hidden");
+        this.domElements.questionContainer.classList.remove("hidden");
+        this.domElements.weiterBtn.classList.remove("hidden");
+        this.domElements.restartBtn.classList.remove("hidden");
+        this.domElements.correctCountElement.textContent =
+            `Correct: ${this.state.fragerichtig}`;
+        this.domElements.wrongCountElement.textContent =
+            `Wrong: ${this.state.fragefalsch}`;
+        this.renderQuestion(
+            this.fragenObjekte[this.state.currentQuestionIndex],
+        );
+        this.resetTimer(); // Timer starten
+        this.domElements.endcontainer.classList.add("hidden");
+    }
 
+    weiter() {
+        const selected = document.querySelector(
+            'input[name="frageOption"]:checked',
+        );
         if (!selected) {
-            weiterBtn.disabled = true; // Kein Ergebnis ausgewählt, Button deaktiviert und nichts weiter tun
+            this.domElements.weiterBtn.disabled = true; // Kein Ergebnis ausgewählt, Button deaktiviert und nichts weiter tun
         }
 
-        weiterBtn.disabled = false;
+        this.domElements.weiterBtn.disabled = false;
 
         const userAnswer = selected.value;
-        const currentFrage = fragenObjekte[currentQuestionIndex];
+        const currentFrage =
+            this.fragenObjekte[this.state.currentQuestionIndex];
 
         if (currentFrage.pruefen(userAnswer)) {
-            fragerichtig++;
-        }
-        else {
-            fragefalsch++;
-        }
-
-        currentQuestionIndex++;
-
-        if (currentQuestionIndex < fragenObjekte.length) { // Es gibt noch Fragen
-            renderQuestion(fragenObjekte[currentQuestionIndex]);
+            this.state.fragerichtig++;
+        } else {
+            this.state.fragefalsch++;
         }
 
-        else {
-            questionContainer.classList.add("hidden");
-            weiterBtn.classList.add("hidden");
-            endcontainer.classList.remove("hidden");
+        this.state.currentQuestionIndex++;
 
-            endcontainer.innerHTML = 
-                `<h2>Quiz Finished!</h2>
-                <p>${fragerichtig}/${fragenObjekte.length} Fragen richtig und ${fragefalsch}/${fragenObjekte.length} Fragen falsch.</p>
-                <p>Gesamtzeit: ${timerDisplay.textContent}</p>`;
-            stopTimer();
-        };
-    }); // <-- This closes the weiterBtn.addEventListener function
-
+        if (this.state.currentQuestionIndex < this.fragenObjekte.length) { // Es gibt noch Fragen
+            this.renderQuestion(
+                this.fragenObjekte[this.state.currentQuestionIndex],
+            );
+        } else {
+            this.show_endpage();
+            this.domElements.endcontainer.innerHTML = `<h2>Quiz Finished!</h2>
+                <p>${this.state.fragerichtig}/${this.fragenObjekte.length} Fragen richtig und ${this.state.fragefalsch}/${this.fragenObjekte.length} Fragen falsch.</p>
+                <p>Gesamtzeit: ${this.domElements.timerDisplay.textContent}</p>`;
+            this.stopTimer();
+        }
+    } // <-- This closes the weiterBtn.addEventListener function
+    gotoEnd() {
+        this.state.currentQuestionIndex = this.fragenObjekte.length - 1; // Setze den Index auf die letzte Frage
+        this.renderQuestion();
+    }
     // Quiz neu starten
-    restartBtn.addEventListener("click", () => {
-        questionContainer.classList.remove("hidden");
-        weiterBtn.classList.remove("hidden");
-        currentQuestionIndex = 0;
-        endcontainer.classList.add("hidden");
+    restart() {
+        this.domElements.questionContainer.classList.remove("hidden");
+        this.domElements.weiterBtn.classList.remove("hidden");
+        this.domElements.restartBtn.classList.remove("hidden");
+        this.state.currentQuestionIndex = 0;
+        this.domElements.endcontainer.classList.add("hidden");
 
-        fragerichtig = 0; 
-        fragefalsch = 0;
-        correctCountElement.textContent = `richtig: ${fragerichtig}`;
-        wrongCountElement.textContent = `falsch: ${fragefalsch}`;
+        this.state.fragerichtig = 0;
+        this.state.fragefalsch = 0;
+        this.domElements.correctCountElement.textContent =
+            `richtig: ${this.state.fragerichtig}`;
+        this.domElements.wrongCountElement.textContent =
+            `falsch: ${this.state.fragefalsch}`;
 
-        fragerichtig = 0;
-        fragefalsch = 0;
+        this.state.fragerichtig = 0;
+        this.state.fragefalsch = 0;
 
-        questionNumber.textContent = `1/${fragenObjekte.length}`;
-        renderQuestion(fragenObjekte[currentQuestionIndex]);
-        resetTimer(); // Timer zurücksetzen und starten
-    });
+        this.domElements.questionNumber.textContent =
+            `1/${this.fragenObjekte.length}`;
+        this.renderQuestion(
+            this.fragenObjekte[this.state.currentQuestionIndex],
+        );
+        this.resetTimer(); // Timer zurücksetzen und starten
+    }
+}
+
+globalThis.addEventListener("DOMContentLoaded", () => {
+    const app = new App();
+    globalThis.app = app; // Globales App-Objekt
+    app.init();
 });
