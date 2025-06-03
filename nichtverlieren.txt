@@ -1,0 +1,3 @@
+ const categoryContainer = document.querySelector(".dropdown-container");
+    const questionCountContainer = document.querySelector(".question-count-container");
+    const questionCountInput = document.getElementById("question-count");
