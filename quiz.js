@@ -6,7 +6,8 @@ import { Frage } from "./frage.js"; // Importiere die Klasse Frage
 
 class App {
     constructor() {
-        this.domElements = {
+        this.d = {
+            startpage: document.getElementById("startpage"),
             startButton: document.getElementById("start-button"),
             questionContainer: document.getElementById("question-container"),
             questionText: document.getElementById("question"),
@@ -25,14 +26,18 @@ class App {
             fragefalsch: 0,
         };
         this.fragenObjekte = fragen.map((e) =>
-            new Frage(e.frage, e.optionen, e.antwort)
-        );
+            new Frage(
+                e.frage,
+                e.optionen.toSorted(() => Math.random() - 0.5),
+                e.antwort,
+            )
+        ).toSorted(() => Math.random() - 0.5);
+        this.init();
     }
     show_endpage() {
-        this.domElements.questionContainer.classList.add("hidden");
-        this.domElements.weiterBtn.classList.add("hidden");
-        this.domElements.restartBtn.classList.remove("hidden");
-        this.domElements.endcontainer.classList.remove("hidden");
+        this.d.startpage.classList.add("hidden");
+        this.d.questionContainer.classList.add("hidden");
+        this.d.endcontainer.classList.remove("hidden");
     }
     // Timer starten
     startTimer() {
@@ -41,7 +46,7 @@ class App {
             const elapsed = Date.now() - this.state.startTime;
             const minutes = Math.floor(elapsed / 60000);
             const seconds = Math.floor((elapsed % 60000) / 1000);
-            this.domElements.timerDisplay.textContent = `${
+            this.d.timerDisplay.textContent = `${
                 minutes.toString().padStart(2, "0")
             }:${seconds.toString().padStart(2, "0")}`;
         }, 1000);
@@ -51,7 +56,7 @@ class App {
     stopTimer() {
         clearInterval(this.state.timerInterval);
         this.state.timerInterval = null;
-        this.domElements.timerDisplay.textContent = "00:00";
+        this.d.timerDisplay.textContent = "00:00";
     }
 
     // Timer zurücksetzen und starten
@@ -63,8 +68,8 @@ class App {
     // Frage rendern
     renderQuestion() {
         const frageObj = this.fragenObjekte[this.state.currentQuestionIndex];
-        this.domElements.questionText.textContent = frageObj.frage;
-        this.domElements.optionsList.innerHTML = "";
+        this.d.questionText.textContent = frageObj.frage;
+        this.d.optionsList.innerHTML = "";
 
         frageObj.optionen.forEach((option, index) => {
             const container = document.createElement("div"); // Wrapper für Radio + Label
@@ -82,54 +87,61 @@ class App {
 
             container.appendChild(radio);
             container.appendChild(label);
-            this.domElements.optionsList.appendChild(container);
+            this.d.optionsList.appendChild(container);
         });
 
-        this.domElements.questionNumber.textContent = `${
+        this.d.questionNumber.textContent = `${
             this.state.currentQuestionIndex + 1
         }/${this.fragenObjekte.length}`;
-        this.domElements.correctCountElement.textContent =
+        this.d.correctCountElement.textContent =
             `Correct: ${this.state.fragerichtig}`;
-        this.domElements.wrongCountElement.textContent =
+        this.d.wrongCountElement.textContent =
             `Wrong: ${this.state.fragefalsch}`;
 
         if (this.state.currentQuestionIndex === this.fragenObjekte.length - 1) {
-            this.domElements.weiterBtn.textContent = "Quiz beenden";
+            this.d.weiterBtn.textContent = "Quiz beenden";
         } else {
-            this.domElements.weiterBtn.textContent = "Nächste Frage";
+            this.d.weiterBtn.textContent = "Nächste Frage";
         }
     }
 
     // Quiz starten
     init() {
-        this.domElements.startButton.addEventListener(
+        this.d.startButton.addEventListener(
             "click",
             this.start.bind(this),
         );
-        this.domElements.weiterBtn.addEventListener(
+        this.d.weiterBtn.addEventListener(
             "click",
             this.weiter.bind(this),
         );
-        this.domElements.restartBtn.addEventListener(
+        this.d.restartBtn.addEventListener(
             "click",
             this.restart.bind(this),
         );
+        this.restart();
     }
 
+    // übergang von startpage zum spiel
+    // this.fragenObjekte ist bereits da
     start() {
-        this.domElements.startButton.classList.add("hidden");
-        this.domElements.questionContainer.classList.remove("hidden");
-        this.domElements.weiterBtn.classList.remove("hidden");
-        this.domElements.restartBtn.classList.remove("hidden");
-        this.domElements.correctCountElement.textContent =
+        this.d.startpage.classList.add("hidden");
+        this.d.questionContainer.classList.remove("hidden");
+        this.d.endcontainer.classList.add("hidden");
+
+        this.state.fragerichtig = 0;
+        this.state.currentQuestionIndex = 0;
+        this.state.fragefalsch = 0;
+
+        this.resetTimer(); // Timer starten
+        this.d.correctCountElement.textContent =
             `Correct: ${this.state.fragerichtig}`;
-        this.domElements.wrongCountElement.textContent =
+        this.d.wrongCountElement.textContent =
             `Wrong: ${this.state.fragefalsch}`;
         this.renderQuestion(
             this.fragenObjekte[this.state.currentQuestionIndex],
         );
-        this.resetTimer(); // Timer starten
-        this.domElements.endcontainer.classList.add("hidden");
+        this.d.questionNumber.textContent = `1/${this.fragenObjekte.length}`;
     }
 
     weiter() {
@@ -137,10 +149,10 @@ class App {
             'input[name="frageOption"]:checked',
         );
         if (!selected) {
-            this.domElements.weiterBtn.disabled = true; // Kein Ergebnis ausgewählt, Button deaktiviert und nichts weiter tun
+            this.d.weiterBtn.disabled = true; // Kein Ergebnis ausgewählt, Button deaktiviert und nichts weiter tun
         }
 
-        this.domElements.weiterBtn.disabled = false;
+        this.d.weiterBtn.disabled = false;
 
         const userAnswer = selected.value;
         const currentFrage =
@@ -160,9 +172,9 @@ class App {
             );
         } else {
             this.show_endpage();
-            this.domElements.endcontainer.innerHTML = `<h2>Quiz Finished!</h2>
+            this.d.endcontainer.innerHTML = `<h2>Quiz Finished!</h2>
                 <p>${this.state.fragerichtig}/${this.fragenObjekte.length} Fragen richtig und ${this.state.fragefalsch}/${this.fragenObjekte.length} Fragen falsch.</p>
-                <p>Gesamtzeit: ${this.domElements.timerDisplay.textContent}</p>`;
+                <p>Gesamtzeit: ${this.d.timerDisplay.textContent}</p>`;
             this.stopTimer();
         }
     } // <-- This closes the weiterBtn.addEventListener function
@@ -172,34 +184,13 @@ class App {
     }
     // Quiz neu starten
     restart() {
-        this.domElements.questionContainer.classList.remove("hidden");
-        this.domElements.weiterBtn.classList.remove("hidden");
-        this.domElements.restartBtn.classList.remove("hidden");
-        this.state.currentQuestionIndex = 0;
-        this.domElements.endcontainer.classList.add("hidden");
-
-        this.state.fragerichtig = 0;
-        this.state.fragefalsch = 0;
-        this.domElements.correctCountElement.textContent =
-            `richtig: ${this.state.fragerichtig}`;
-        this.domElements.wrongCountElement.textContent =
-            `falsch: ${this.state.fragefalsch}`;
-
-        this.state.fragerichtig = 0;
-        this.state.fragefalsch = 0;
-
-        this.domElements.questionNumber.textContent =
-            `1/${this.fragenObjekte.length}`;
-        this.renderQuestion(
-            this.fragenObjekte[this.state.currentQuestionIndex],
-        );
-        this.resetTimer(); // Timer zurücksetzen und starten
+        this.d.startpage.classList.remove("hidden");
+        this.d.questionContainer.classList.add("hidden");
+        this.d.endcontainer.classList.add("hidden");
     }
 }
 
 globalThis.addEventListener("DOMContentLoaded", () => {
     const app = new App();
     globalThis.app = app; // Globales App-Objekt
-    app.init();
 });
-

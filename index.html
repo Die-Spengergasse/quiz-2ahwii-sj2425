@@ -17,26 +17,25 @@
 
 <body>
     <div class="container">
-        <div id="endcontainer"></div>
-
-        <h1>
-            <button type="button"
-                    id="start-button">Quiz starten</button>
-        </h1>
-        <div class="dropdown-container">
-            <label>Wähle eine Kategorie:
-                <select id="category">
-                    <option value="11">Film</option>
-                    <option value="24">Politik</option>
-                    <option value="17">Wissenschaft</option>
-                    <option value="23">Geschichte</option>
-                    <option value="21">Sport</option>
-                </select>
-            </label>
+        <div id="startpage">
+            <h1>
+                <button type="button"
+                        id="start-button">Quiz starten</button>
+            </h1>
+            <div class="dropdown-container">
+                <label>Wähle eine Kategorie:
+                    <select id="category">
+                        <option value="11">Film</option>
+                        <option value="24">Politik</option>
+                        <option value="17">Wissenschaft</option>
+                        <option value="23">Geschichte</option>
+                        <option value="21">Sport</option>
+                    </select>
+                </label>
+            </div>
         </div>
 
-        <div id="question-container"
-             class="hidden">
+        <div id="question-container">
             <div id="header">
                 <div>
                     <span id="question-number">1/14</span>
@@ -49,16 +48,15 @@
             </div>
             <h2 id="question">__</h2>
             <div id="options"></div>
+            <div id="weiter-container">
+                <button id="weiter-btn">Nächste Frage</button>
+                <button id="restart-btn">
+                    Quiz neu starten
+                </button>
+            </div>
         </div>
 
-        <div id="weiter-container">
-            <button id="weiter-btn"
-                    class="hidden">Nächste Frage</button>
-            <button id="restart-btn"
-                    class="hidden">
-                Quiz neu starten
-            </button>
-        </div>
+        <div id="endcontainer"></div>
     </div>
 </body>
 
