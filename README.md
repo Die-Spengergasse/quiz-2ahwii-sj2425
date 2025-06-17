@@ -2,7 +2,4 @@
 
 Quiz Projekt alle gemeinsam
 
-Versuch mit push auf main
-next try: soll nicht gehen
-
-hallo sonja
+[Live URL](https://grafg1.spengergasse.at/quiz/)
