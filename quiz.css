@@ -1,5 +1,4 @@
-body,
-html {
+body,html {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -8,17 +7,16 @@ html {
     justify-content: center;
     align-items: center;
     background: linear-gradient(to bottom, #3131e0, #4fbaf8);
-    font-family: Arial, sans-serif
 }
 
 .container {
-    max-width: 8000px;
-    padding: 150px;
-    background-color: #66bec4;
+    width: 600px;
+    /* height: 200px; */ /* Remove or adjust as needed */
+    padding: 40px; /* Adjust as needed */
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    opacity: 0.3;
+    font-size: 16px;
+    background: linear-gradient(to bottom, #4a4ae3, #6cc5f9);
 }
 
 #start-button {
@@ -28,6 +26,8 @@ html {
     padding: 0.5em;
     border-radius: 0.5em;
     cursor: pointer;
+
+    
 }
 
 #start-button:hover {
@@ -46,6 +46,8 @@ html {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-left: 28%;
+    
 }
 
 #weiter-btn:hover {
@@ -93,12 +95,19 @@ li {
     justify-content: space-around;
     border-radius: 10px;
     flex-direction: column;
+    text-align: center;
+}
+
+#question {
+    text-align: center; 
 }
 
 .option-container {
     margin-bottom: 10px;
     border-radius: 5px;
     font-weight: bold;
+    color: #ffffff;
+    padding-left: 40%;
 }
 
 .option-container input[type="radio"] {
@@ -128,7 +137,7 @@ header {
 .options {
     margin-bottom: 20px;
     padding: 10px;
-    background-color: #e50b0b;
+    background-color: #ffffff;
 
     border-radius: 5px;
 }
