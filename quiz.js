@@ -9,6 +9,7 @@ class App {
         this.d = {
             startpage: document.getElementById("startpage"),
             startButton: document.getElementById("start-button"),
+            categoryDropdown: document.getElementById("category"),
             questionContainer: document.getElementById("question-container"),
             questionText: document.getElementById("question"),
             optionsList: document.getElementById("options"),
@@ -46,9 +47,8 @@ class App {
             const elapsed = Date.now() - this.state.startTime;
             const minutes = Math.floor(elapsed / 60000);
             const seconds = Math.floor((elapsed % 60000) / 1000);
-            this.d.timerDisplay.textContent = `${
-                minutes.toString().padStart(2, "0")
-            }:${seconds.toString().padStart(2, "0")}`;
+            this.d.timerDisplay.textContent = `${minutes.toString().padStart(2, "0")
+                }:${seconds.toString().padStart(2, "0")}`;
         }, 1000);
     }
 
@@ -90,9 +90,8 @@ class App {
             this.d.optionsList.appendChild(container);
         });
 
-        this.d.questionNumber.textContent = `${
-            this.state.currentQuestionIndex + 1
-        }/${this.fragenObjekte.length}`;
+        this.d.questionNumber.textContent = `${this.state.currentQuestionIndex + 1
+            }/${this.fragenObjekte.length}`;
         this.d.correctCountElement.textContent =
             `Correct: ${this.state.fragerichtig}`;
         this.d.wrongCountElement.textContent =
@@ -132,7 +131,7 @@ class App {
         this.state.fragerichtig = 0;
         this.state.currentQuestionIndex = 0;
         this.state.fragefalsch = 0;
-
+        // this.fragenObjekte au sdem api holen mit await
         this.resetTimer(); // Timer starten
         this.d.correctCountElement.textContent =
             `Correct: ${this.state.fragerichtig}`;
