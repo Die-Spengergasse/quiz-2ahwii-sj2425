@@ -149,10 +149,10 @@ class App {
             'input[name="frageOption"]:checked',
         );
         if (!selected) {
-            this.d.weiterBtn.disabled = true; // Kein Ergebnis ausgewählt, Button deaktiviert und nichts weiter tun
+            return;
         }
 
-        this.d.weiterBtn.disabled = false;
+        //this.d.weiterBtn.disabled = Boolean(!selected); // Deaktiviert den Button, wenn keine Option ausgewählt ist
 
         const userAnswer = selected.value;
         const currentFrage =
