@@ -11,12 +11,11 @@ body,html {
 
 .container {
     width: 600px;
-    height: 200px;
-    padding: 100px;
+    /* height: 200px; */ /* Remove or adjust as needed */
+    padding: 40px; /* Adjust as needed */
     border-radius: 8px;
-    background-color: linear-gradient(to bottom, #2b3aac, );
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    font-size: 10px;
+    font-size: 16px;
     background: linear-gradient(to bottom, #4a4ae3, #6cc5f9);
 }
 
@@ -27,6 +26,7 @@ body,html {
     padding: 0.5em;
     border-radius: 0.5em;
     cursor: pointer;
+
     
 }
 
