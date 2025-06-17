@@ -1,4 +1,4 @@
-body,html {
+body, html {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -9,6 +9,22 @@ body,html {
     background: linear-gradient(to bottom, #3131e0, #4fbaf8);
 }
 
+#startpage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#startpage > .dropdown-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+#startpage label > * {
+    margin-left: 10px;
+}
+#startpage label {
+    margin-top: 7px;
+}
 .container {
     width: 600px;
     /* height: 200px; */ /* Remove or adjust as needed */
@@ -26,8 +42,6 @@ body,html {
     padding: 0.5em;
     border-radius: 0.5em;
     cursor: pointer;
-
-    
 }
 
 #start-button:hover {
@@ -47,7 +61,6 @@ body,html {
     border-radius: 5px;
     cursor: pointer;
     margin-left: 28%;
-    
 }
 
 #weiter-btn:hover {
@@ -71,7 +84,6 @@ body,html {
 ul {
     list-style: none;
     padding: 0;
-
 }
 
 li {
@@ -79,11 +91,10 @@ li {
     background-color: #f0f0f0;
     margin: 5px 0;
     border-radius: 5px;
-
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 #header {
@@ -99,7 +110,7 @@ li {
 }
 
 #question {
-    text-align: center; 
+    text-align: center;
 }
 
 .option-container {
@@ -116,7 +127,6 @@ li {
     /* Ändert Farbe in modernen Browsern */
     width: 20px;
     height: 20px;
-
 }
 
 header {
@@ -131,7 +141,6 @@ header {
     font-size: 35px;
     z-index: 1000;
     /*box-shadow: 0 2px 5px rgba(0,0,0,0.3);*/
-
 }
 
 .options {
