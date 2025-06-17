@@ -10,6 +10,8 @@ class App {
             startpage: document.getElementById("startpage"),
             startButton: document.getElementById("start-button"),
             categoryDropdown: document.getElementById("category"),
+            hardness_select: document.getElementById("hardness"),
+            howmany: document.getElementById("howmany"),
             questionContainer: document.getElementById("question-container"),
             questionText: document.getElementById("question"),
             optionsList: document.getElementById("options"),
@@ -35,6 +37,9 @@ class App {
         ).toSorted(() => Math.random() - 0.5);
         this.init();
     }
+    get_api_url(category, difficulty, count) {
+        return `https://opentdb.com/api.php?amount=${count}&category=${category}&difficulty=${difficulty}&type=multiple`;
+    }
     show_endpage() {
         this.d.startpage.classList.add("hidden");
         this.d.questionContainer.classList.add("hidden");
@@ -47,8 +52,9 @@ class App {
             const elapsed = Date.now() - this.state.startTime;
             const minutes = Math.floor(elapsed / 60000);
             const seconds = Math.floor((elapsed % 60000) / 1000);
-            this.d.timerDisplay.textContent = `${minutes.toString().padStart(2, "0")
-                }:${seconds.toString().padStart(2, "0")}`;
+            this.d.timerDisplay.textContent = `${
+                minutes.toString().padStart(2, "0")
+            }:${seconds.toString().padStart(2, "0")}`;
         }, 1000);
     }
 
@@ -68,7 +74,7 @@ class App {
     // Frage rendern
     renderQuestion() {
         const frageObj = this.fragenObjekte[this.state.currentQuestionIndex];
-        this.d.questionText.textContent = frageObj.frage;
+        this.d.questionText.innerHTML = frageObj.frage;
         this.d.optionsList.innerHTML = "";
 
         frageObj.optionen.forEach((option, index) => {
@@ -83,15 +89,16 @@ class App {
 
             const label = document.createElement("label");
             label.setAttribute("for", radio.id);
-            label.textContent = option;
+            label.innerHTML = option;
 
             container.appendChild(radio);
             container.appendChild(label);
             this.d.optionsList.appendChild(container);
         });
 
-        this.d.questionNumber.textContent = `${this.state.currentQuestionIndex + 1
-            }/${this.fragenObjekte.length}`;
+        this.d.questionNumber.textContent = `${
+            this.state.currentQuestionIndex + 1
+        }/${this.fragenObjekte.length}`;
         this.d.correctCountElement.textContent =
             `Correct: ${this.state.fragerichtig}`;
         this.d.wrongCountElement.textContent =
@@ -123,7 +130,8 @@ class App {
 
     // übergang von startpage zum spiel
     // this.fragenObjekte ist bereits da
-    start() {
+
+    async start() {
         this.d.startpage.classList.add("hidden");
         this.d.questionContainer.classList.remove("hidden");
         this.d.endcontainer.classList.add("hidden");
@@ -131,7 +139,29 @@ class App {
         this.state.fragerichtig = 0;
         this.state.currentQuestionIndex = 0;
         this.state.fragefalsch = 0;
-        // this.fragenObjekte au sdem api holen mit await
+
+        const category = this.d.categoryDropdown.value;
+        const hardness = this.d.hardness_select.value;
+        const howmany = this.d.howmany.value;
+        //console.log(this.get_api_url(category, hardness, howmany));
+        try {
+            if (category != "0") {
+                const result = await fetch(
+                    this.get_api_url(category, hardness, howmany),
+                );
+                const json = await result.json();
+                if (json.response_code != 0) {
+                    throw new Error("api response no good");
+                }
+                this.fragenObjekte = [];
+                json.results.forEach((e) =>
+                    this.fragenObjekte.push(Frage.from_api_obj(e))
+                );
+                console.log(json);
+            }
+        } catch (e) {
+            console.error(e);
+        }
         this.resetTimer(); // Timer starten
         this.d.correctCountElement.textContent =
             `Correct: ${this.state.fragerichtig}`;
