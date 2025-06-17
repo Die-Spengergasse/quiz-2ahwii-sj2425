@@ -35,9 +35,10 @@ class App {
                 e.antwort,
             )
         ).toSorted(() => Math.random() - 0.5);
-        this.init();
+        this.attach_listeners();
+        this.show_startpage();
     }
-    get_api_url(category, difficulty, count) {
+    static get_api_url(category, difficulty, count) {
         return `https://opentdb.com/api.php?amount=${count}&category=${category}&difficulty=${difficulty}&type=multiple`;
     }
     show_endpage() {
@@ -111,11 +112,11 @@ class App {
         }
     }
 
-    // Quiz starten
-    init() {
+    //
+    attach_listeners() {
         this.d.startButton.addEventListener(
             "click",
-            this.start.bind(this),
+            this.start_game.bind(this),
         );
         this.d.weiterBtn.addEventListener(
             "click",
@@ -123,23 +124,14 @@ class App {
         );
         this.d.restartBtn.addEventListener(
             "click",
-            this.restart.bind(this),
+            this.show_startpage.bind(this),
         );
-        this.restart();
     }
 
     // übergang von startpage zum spiel
     // this.fragenObjekte ist bereits da
 
-    async start() {
-        this.d.startpage.classList.add("hidden");
-        this.d.questionContainer.classList.remove("hidden");
-        this.d.endcontainer.classList.add("hidden");
-
-        this.state.fragerichtig = 0;
-        this.state.currentQuestionIndex = 0;
-        this.state.fragefalsch = 0;
-
+    async start_game() {
         const category = this.d.categoryDropdown.value;
         const hardness = this.d.hardness_select.value;
         const howmany = this.d.howmany.value;
@@ -147,7 +139,7 @@ class App {
         try {
             if (category != "0") {
                 const result = await fetch(
-                    this.get_api_url(category, hardness, howmany),
+                    App.get_api_url(category, hardness, howmany),
                 );
                 const json = await result.json();
                 if (json.response_code != 0) {
@@ -162,6 +154,14 @@ class App {
         } catch (e) {
             console.error(e);
         }
+        this.d.startpage.classList.add("hidden");
+        this.d.questionContainer.classList.remove("hidden");
+        this.d.endcontainer.classList.add("hidden");
+
+        this.state.fragerichtig = 0;
+        this.state.currentQuestionIndex = 0;
+        this.state.fragefalsch = 0;
+
         this.resetTimer(); // Timer starten
         this.d.correctCountElement.textContent =
             `Correct: ${this.state.fragerichtig}`;
@@ -212,7 +212,7 @@ class App {
         this.renderQuestion();
     }
     // Quiz neu starten
-    restart() {
+    show_startpage() {
         this.d.startpage.classList.remove("hidden");
         this.d.questionContainer.classList.add("hidden");
         this.d.endcontainer.classList.add("hidden");

@@ -22,10 +22,10 @@
                 <button type="button"
                         id="start-button">Quiz starten</button>
             </h1>
-            <div class="dropdown-category">
+            <div class="dropdown-container">
                 <label>Wähle eine Kategorie:
                     <select id="category">
-                        <option value="0">use default questions</option>
+                        <option value="0">Standardfragen</option>
                         <option value="11">Film</option>
                         <option value="24">Politik</option>
                         <option value="17">Wissenschaft</option>
@@ -33,7 +33,7 @@
                         <option value="21">Sport</option>
                     </select>
                 </label>
-                <label><select id="hardness">
+                <label>Schwierigkeit:<select id="hardness">
                         <option value="easy">easy</option>
                         <option value="medium">medium</option>
                         <option value="hard">hard</option>
@@ -42,6 +42,7 @@
                            name="howmany"
                            id="howmany"
                            min="2"
+                           max="50"
                            value="3">
                 </label>
             </div>
@@ -57,18 +58,16 @@
                 <div>
                     <span id="timer">00:00</span>
                 </div>
-                </div>
-                <h2 id="question">__</h2>
-                <div id="options"></div>
             </div>
+            <h2 id="question">__</h2>
+            <div id="options"></div>
             <div id="weiter-container">
                 <button id="weiter-btn">Nächste Frage</button>
                 <button id="restart-btn">
                     Quiz neu starten
                 </button>
             </div>
-        
-
+        </div>
         <div id="endcontainer"></div>
     </div>
 </body>
