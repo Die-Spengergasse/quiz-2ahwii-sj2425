@@ -3,18 +3,24 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
     <title>Quiz Seite</title>
-    <link rel="stylesheet" href="quiz.css">
-    <script src="quiz.js" type="module"></script>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet"
+          href="quiz.css">
+    <script src="quiz.js"
+            type="module"></script>
+    <link rel="icon"
+          type="image/x-icon"
+          href="favicon.ico">
 </head>
 
 <body>
     <div class="container">
         <div id="startpage">
             <h1>
-                <button type="button" id="start-button">Quiz starten</button>
+                <button type="button"
+                        id="start-button">Quiz starten</button>
             </h1>
             <div class="dropdown-container">
                 <label>Wähle eine Kategorie:
@@ -26,6 +32,11 @@
                         <option value="23">Geschichte</option>
                         <option value="21">Sport</option>
                     </select>
+                </label>
+                <label>Wie viele Fragen?<input type="number"
+                           name="howmany"
+                           id="howmany"
+                           min="2">
                 </label>
             </div>
         </div>
@@ -43,8 +54,6 @@
                 <h2 id="question">__</h2>
                 <div id="options"></div>
             </div>
-            <h2 id="question">__</h2>
-            <div id="options"></div>
             <div id="weiter-container">
                 <button id="weiter-btn">Nächste Frage</button>
                 <button id="restart-btn">
